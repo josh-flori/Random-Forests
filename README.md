@@ -68,3 +68,6 @@ Then you run any new sample through every decision tree. Tally, or aggregate the
 
 How do you know if your forest is any good? Just do some standard cross validation and testing. 
 
+How do you deal with missing data (missing from original training set) & (missing from new sample that you want to catagorize) ?
+
+
