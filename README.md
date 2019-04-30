@@ -57,6 +57,14 @@ Repeat for all average values and find the lowest value and use that as the high
 ![alt_text](https://imgur.com/1ADTTWE.png).
 
 
-With ranked data, you calculate 
+## Random Forests.
+But trees have one aspect that prevents them from being the ideal tool for predictive learning, namely inaccuracy. In other words, they work great with the data used to create them, but they are not flexible when it comes to classifying new samples. Random Forests combine the simplicity of decision trees with flexibility resulting in a vast improvement in accuracy. 
 
+First, create a bootstrapped data set. To create a bootstrapped dataset that is the same size as the original, we just randomly select samples from the original dataset. We're allowed to pick the same sample more than once. On that subset, rather than considering every predictor as a root node, you only consider a subset of predictors. Then when you have determined a root node of that subsample of predictors, remove that predictor from possible consideration and expand the number of predictors you consider for the next node. (You can vary the number of predictors you consider in each tree as a hyperparameter to tune). Repeat this process many times. 
+
+Then you run any new sample through every decision tree. Tally, or aggregate the outcome class predictions from all trees. Then go with whatever has the most. 
+
+#### Bagging: Bootstrapping + aggregating results
+
+How do you know if your forest is any good? Just do some standard cross validation and testing. 
 
