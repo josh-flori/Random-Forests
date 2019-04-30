@@ -29,3 +29,13 @@ What you do is go through each of your predictors. Then for every training examp
 
 ![alt text](https://imgur.com/F7hBu3M.png)
 
+To figure out which has the best predictive power, you calculate the gini impurity for each leaf node, which is 1-(P("yes"))^2-(P("no"))^2, for each side of each predictor, like so...
+
+![alt_text](https://imgur.com/eyVGHQz.png)
+
+Then calculate the total impurity for that predictor like so:
+
+![alt_text](https://imgur.com/CQ0Y28G.png)
+
+Where you take the total number of people in the left leaf node (144) and divide by the total number of people in both leaf nodes (144+159). So the total Gini impurity for chest pain is the weighted average of the leaf node impurities. You pick the predictor with the lowest gini impurity as the root node. 
+
