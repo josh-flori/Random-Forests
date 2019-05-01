@@ -68,6 +68,22 @@ Then you run any new sample through every decision tree. Tally, or aggregate the
 
 How do you know if your forest is any good? Just do some standard cross validation and testing. 
 
-How do you deal with missing data (missing from original training set) & (missing from new sample that you want to catagorize) ?
+How do you deal with missing data (missing from original training set) & (missing from new sample that you want to catagorize) ? Baically, create a random forest (without the missing data I think..)... then for every missing value in the data, set the missing value to be equal to the most frequent value (if text data) or average value (if numeric). Then run every sample (data point) down every tree. Count the number of times a given sample ended up being classified the same as your sample with missing data. You end up with a matrix that looks like this
+
+![alt_text](https://imgur.com/GwjWBO5.png) 
+
+where the values 1:4 are the samples (you will have as many as M unless you use a fancy ass heuristic approach). The counts are the number of trees that sent those pairs of samples to the same outcome. Then you divide each count by the total number of trees. Then for text data what you do is get the frequency of each text possibility as shown below 
+
+![alt_text](https://imgur.com/f0jFI7l.png)
+
+and multiply it by (proximity of that text / all proximities). The (proximity of that text) is actually the summation of every column in the row for that sample (in this example case, 4) which had that text value, in this case that would be the row/column value (4,2), which has a proximity weight of .1. (all proximities) is equal to the summation of the entire row of your sample (in this case, 4). 
+
+So to make this clear the other direction, for text "no" in this example case, the frequency is 2/3, then (proximity of that text) is .1+.8 yielding .9, then (all proximities) is the same as above. 
+
+When you multiply those things out, you see that the probability, so to speak, of a missing value of "yes" is .03 and the probability for a missing value of "no" in the blocked arteries column is .9, which is much higher, so that's our final value. 
+
+For numeric data you get the weighted average. So multiply each numeric value by the corresponding proximity weight in the matrix. Then sum them together to get the missing value, like so
+
+![alt_text](https://imgur.com/AT0WbGU.png)
 
 
