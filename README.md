@@ -81,25 +81,30 @@ How do you deal with missing data (missing from original training set) & (missin
 
 ![alt_text](https://imgur.com/GwjWBO5.png) 
 
-where the values 1,2,3,4 are the samples/rows in your training set (you will have as many as M unless you use a fancy ass heuristic approach). The counts are the number of trees that sent those pairs of samples to the same outcome. After you have this, you divide each count by the total number of trees to normalize it. If you are dealing with missing text/catagorical data, then what you do next is get the frequency of each text possibility (in the training set) as shown below (where frequency of yes is 1/3 and frequency of no is 2/3)
+where the values 1,2,3,4 are the samples/rows in your training set (you will have as many as M unless you use a fancy ass heuristic approach). The counts are the number of trees that sent those pairs of samples to the same outcome. After you have this, you divide each count by the total number of trees to normalize it. 
+
+### Catagorical
+If you are dealing with missing text/catagorical data, then what you do next is get the frequency of each text possibility (in the training set) as shown below (where frequency of yes is 1/3 and frequency of no is 2/3)
 
 ![alt_text](https://imgur.com/f0jFI7l.png)
 
 and multiply that frequency by (PROXIMITY OF THAT TEXT / ALL PROXIMITIES). 
 
-The (PROXIMITY OF THAT TEXT) is actually the summation of every column in the row in the proximity matrix for that training sample that was missing data (in this example case, 4) which had that text value. In this case that would be the row/column value (4,2), which has a proximity weight of .1 (derived after dividing the counts by number of trees). 
+The (PROXIMITY OF THAT TEXT) is actually the summation of every column in the proximity matrix row for the training sample that was missing data (in this example case, 4) which had that given text value. In this case that would be the row/column value (4,2), which has a proximity weight of .1 (derived after dividing the counts by number of trees). 
 
-(ALL PROXIMITIES) is equal to the summation of the entire row of your sample (in this case, 4). 
+(ALL PROXIMITIES) is equal to the summation of the entire row of your training sample (in this case, 4). 
 
 So to make this clear the other direction, for text "no" in this example case, the frequency is 2/3, then (proximity of that text) is .1+.8 yielding .9, then (all proximities) is the same as above. 
 
 When you multiply those things out, you see that the probability, so to speak, of a missing value of "yes" is .03 and the probability for a missing value of "no" in the blocked arteries column is .9, which is much higher, so that's our final value. 
 
-For numeric data you get the weighted average. So multiply each numeric value by the corresponding proximity weight in the matrix. Then sum them together to get the missing value, like so
+### Numeric
+For numeric data you get the weighted average. So multiply each numeric value for all training examples for the predictor by the corresponding proximity weight in the matrix. Then sum them together to get the missing value, like so
 
 ![alt_text](https://imgur.com/AT0WbGU.png)
 
 
+# cool stuff
 
 But now lets talk about some cool stuff. So the proximity matrix shows weights from 0-1 (after dividing by the number of trees). So a value of 1 is the maximum value. So what happens when you subtract every value from 1? You get a distance matrix. So a resulting value of 0 tells you that those two samples are as close together as possible given those features and that forest. That allows us to create heatmaps like this
 
