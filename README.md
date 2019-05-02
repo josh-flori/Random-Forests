@@ -16,16 +16,16 @@ Now lets look at what is being considered and decided.
 Note that.... 
 1) It combines numeric data with yes/no data.
 2) The cutoff for resting heatrate isn't always the same (100bpm on left, 120bpm on right)
-3) Questions on left doesn't have to be same as right (reasting heatrate and doughnuts questions are flipflopped)
+3) Questions on left don't have to be same as right (resting heartrate and doughnut questions are flipflopped in vertical order)
 4) Classifications can be repeated.
 
 How do you go from raw data to a decision tree? Lets look at catagorical data first.
 
-Imagine you have three predictors: Chest Pain, Good Blood Circulation, Blocked Ateries. Which should you pick as the root node (should pick one with most predictive power to the outcome class).
+Imagine you have three predictors: Chest Pain, Good Blood Circulation, Blocked Ateries. How do you structure the questions in your tree? Which should you pick as the root node (you want to pick the one with most predictive power to the outcome class).
 
 ![alt text](https://imgur.com/3puCMGa.png)
 
-What you do is go through each of your predictors. Then for every training example, you ask: "is the predictor value yes or no?" then you look at the outcome value and ask "is it yes or no" (or whatever your values are). Then you tally everything up.
+What you do is go through each of your predictors (in this case our three columns: Chest Pain, Good Blood Circulation, Blocked Ateries). Then you tally up all the permutations between that column and the outcome variable. So our permutations for (Chest Pain, Heart Disease) are: (yes,yes), (yes,no), (no,yes), (no,no). This corresponds to the two uppermost green blocks below. The left green block corresponds to the permutations (yes,yes) and (yes,no). We can see that of the people that DID have chest paid, 105 had heart disease and 39 did not. And so on... for all predictors.
 
 ![alt text](https://imgur.com/F7hBu3M.png)
 
