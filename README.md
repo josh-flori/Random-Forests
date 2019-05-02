@@ -2,6 +2,8 @@
 
 Random forests are a collection of decision trees. First we need to understand decision trees.
 
+#### Bagging: Bootstrapping + aggregating results
+
 -----------------------------------------------------------------------
 
 ## Decision trees
@@ -68,12 +70,13 @@ Here's a simple outcome example of many trees that may be created from this proc
 
 ![alt_text](https://imgur.com/bo3fAlh.png)
 
-Then you run any new sample through every decision tree. Tally, or aggregate the outcome class predictions from all trees. Then go with whatever has the most. 
+## NEW PREDICTIONS
+To use this forest in the wild to make a new prediction, you run any new sample through every decision tree in the forest. You then tally, or aggregate the outcome class predictions from all trees. Then your prediction is whichever number is highest of your possible classes.
 
-#### Bagging: Bootstrapping + aggregating results
-
+## VALIDATION
 How do you know if your forest is any good? Just do some standard cross validation and testing. 
 
+## MISSING DATA
 How do you deal with missing data (missing from original training set) & (missing from new sample that you want to catagorize) ? Baically, create a random forest (without the missing data I think..)... then for every missing value in the data, set the missing value to be equal to the most frequent value (if text data) or average value (if numeric). Then run every sample (data point) down every tree. Count the number of times a given sample ended up being classified the same as your sample with missing data. You end up with a matrix that looks like this
 
 ![alt_text](https://imgur.com/GwjWBO5.png) 
