@@ -37,11 +37,11 @@ Then calculate the total impurity for the ENTIRE predictor (in other words, abov
 
 ![alt_text](https://imgur.com/CQ0Y28G.png)
 
-You take the total number of samples/datapoints in the left side of the predictor (yes) and divide by the total number of people in both sides of the predictor (yes,no) (144+159). So the total Gini impurity for chest pain is the weighted average of both impurities. 
+You take the total number of samples/datapoints in both sides of the predictor (yes,no) and divide by the total number of people in both sides of the predictor (yes,no) (144+159). So the total Gini impurity for chest pain is the weighted average of both impurities. 
 
-You pick the predictor with the lowest gini impurity as the root node. To figure out which predictors should come next in the tree structure, you repeat the same process on the subsets of data created by each internal leaf. For a more exact visualization, watch https://youtu.be/7VeUPuFGJHk?t=619
+You pick the predictor with the lowest gini impurity as the root node. To figure out which predictors should come next in the tree structure, you repeat the same process on the subsets of data created by each split for the rest of the predictors. For a more exact visualization, watch https://youtu.be/7VeUPuFGJHk?t=619
 
-#### But how do you use numeric data? 
+#### So that's how you pick catagorical predictors, how do you use numeric data? 
 First, sort numeric data low-high. 
 
 ![alt_text](https://imgur.com/gQFOqTC.png)
@@ -50,7 +50,7 @@ Then calculate average value for each adjacent value
 
 ![alt_text](https://imgur.com/LVWiyue.png)
 
-Then calculate the gini impurity for each side of the node and the impurity for the entire predictor, which in this case is the average value between each adjacent value
+Then calculate the gini impurity for each side of the predictor as well as the impurity for the entire predictor, which in this case is the average value between each adjacent value. I guess you would need to make sure that you don't have as many numeric values as N, but maybe that doesn't really matter. Seems like it would.
 
 ![alt_text](https://imgur.com/UAADexv.png)
 
@@ -62,7 +62,11 @@ Repeat for all average values and find the lowest value and use that as the high
 ## Random Forests.
 But trees have one aspect that prevents them from being the ideal tool for predictive learning, namely inaccuracy. In other words, they work great with the data used to create them, but they are not flexible when it comes to classifying new samples. Random Forests combine the simplicity of decision trees with flexibility resulting in a vast improvement in accuracy. 
 
-First, create a bootstrapped data set. To create a bootstrapped dataset that is the same size as the original, we just randomly select samples from the original dataset. We're allowed to pick the same sample more than once. On that subset, rather than considering every predictor as a root node, you only consider a subset of predictors. Then when you have determined a root node of that subsample of predictors, remove that predictor from possible consideration and expand the number of predictors you consider for the next node. (You can vary the number of predictors you consider in each tree as a hyperparameter to tune). Repeat this process many times. 
+First, create a bootstrapped data set. WHAT IS A BOOTSTRAPPED DATASET? It is one where we randomly select samples from the original dataset. We're allowed to pick the same sample more than once. On that subset, rather than considering every predictor as a condidate for the root node, you only consider a subset of predictors. Then when you have determined a root node of that subsample of predictors, remove that predictor from possible consideration and expand the number of predictors you consider for the next node. (You can vary the number of predictors you consider in each tree as a hyperparameter to tune). Repeat this process many times.  Specifically, in review, 1) you start with your data, 2) you take a bootstrapped sample 3) you create a decision tree following the rules rescribed above but not considering all of the predictors as a root node. Repeat steps 1:3 on many bootstrapped samples from the dataset, creating many different trees based on both the unique sample and the unique predictors considered for the root node. This is a regularization technique. 
+
+Here's a simple outcome example of many trees that may be created from this process. That is your forest of trees.
+
+![alt_text](https://imgur.com/bo3fAlh.png)
 
 Then you run any new sample through every decision tree. Tally, or aggregate the outcome class predictions from all trees. Then go with whatever has the most. 
 
