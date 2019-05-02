@@ -87,3 +87,12 @@ For numeric data you get the weighted average. So multiply each numeric value by
 ![alt_text](https://imgur.com/AT0WbGU.png)
 
 
+
+But now lets talk about some cool stuff. So the proximity matrix shows weights from 0-1 (after dividing by the number of trees). So a value of 1 is the maximum value. So what happens when you subtract every value from 1? You get a distance matrix. So a resulting value of 0 tells you that those two samples are as close together as possible given those features and that forest. That allows us to create heatmaps like this
+
+![alt_text](https://imgur.com/DDVLutp.png)
+
+and mds plots like this
+
+![alt_text](https://imgur.com/N7EziSk.png)
+
