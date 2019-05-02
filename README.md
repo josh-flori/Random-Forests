@@ -29,15 +29,17 @@ What you do is go through each of your predictors (in this case our three column
 
 ![alt text](https://imgur.com/F7hBu3M.png)
 
-To figure out which has the best predictive power, you calculate the gini impurity for each leaf node, which is 1-(P("yes"))^2-(P("no"))^2, for each side of each predictor, like so...
+To figure out which has the best predictive power, you calculate the gini impurity for each predictor, which is 1-(P("yes"))^2-(P("no"))^2, for each side of each predictor, like so...
 
 ![alt_text](https://imgur.com/eyVGHQz.png)
 
-Then calculate the total impurity for that predictor like so:
+Then calculate the total impurity for the ENTIRE predictor (in other words, above, we looked at the impurity of each "side" of the predictor (yes, no), but below we are looking at their total effect, or in other words the total power of the predictor as a whole) like so:
 
 ![alt_text](https://imgur.com/CQ0Y28G.png)
 
-Where you take the total number of people in the left leaf node (144) and divide by the total number of people in both leaf nodes (144+159). So the total Gini impurity for chest pain is the weighted average of the leaf node impurities. You pick the predictor with the lowest gini impurity as the root node. To figure out which predictors should come next in the tree structure, you repeat the same process on the subsets of data created by each internal leaf. For a more exact visualization, watch https://youtu.be/7VeUPuFGJHk?t=619
+You take the total number of samples/datapoints in the left side of the predictor (yes) and divide by the total number of people in both sides of the predictor (yes,no) (144+159). So the total Gini impurity for chest pain is the weighted average of both impurities. 
+
+You pick the predictor with the lowest gini impurity as the root node. To figure out which predictors should come next in the tree structure, you repeat the same process on the subsets of data created by each internal leaf. For a more exact visualization, watch https://youtu.be/7VeUPuFGJHk?t=619
 
 #### But how do you use numeric data? 
 First, sort numeric data low-high. 
