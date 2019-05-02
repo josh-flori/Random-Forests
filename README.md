@@ -77,15 +77,19 @@ To use this forest in the wild to make a new prediction, you run any new sample 
 How do you know if your forest is any good? Just do some standard cross validation and testing. 
 
 ## MISSING DATA
-How do you deal with missing data (missing from original training set) & (missing from new sample that you want to catagorize) ? Baically, create a random forest (without the missing data I think..)... then for every missing value in the data, set the missing value to be equal to the most frequent value (if text data) or average value (if numeric). Then run every sample (data point) down every tree. Count the number of times a given sample ended up being classified the same as your sample with missing data. You end up with a matrix that looks like this
+How do you deal with missing data (missing from original training set) & (missing from new sample that you want to catagorize)? In the first case, create a random forest (without the missing data I think..)... then for every missing value in the training set, set the missing value to be equal to the most frequent value (if text data) or average value (if numeric). Then run every sample (data point) down every tree in said created forest. Count the number of times a given data point (row) in your training set ended up being classified the same as your sample with missing data. In other words, for every tree in your forest, you run every row of data down that tree and in a matrix of ROWxROW data, put a "1" where those two rows were classified the same by that given tree. Repeat for all trees in forest and +=1 if those two rows were classified the same by that next tree. You end up with a matrix that looks like this
 
 ![alt_text](https://imgur.com/GwjWBO5.png) 
 
-where the values 1:4 are the samples (you will have as many as M unless you use a fancy ass heuristic approach). The counts are the number of trees that sent those pairs of samples to the same outcome. Then you divide each count by the total number of trees. Then for text data what you do is get the frequency of each text possibility as shown below 
+where the values 1,2,3,4 are the samples/rows in your training set (you will have as many as M unless you use a fancy ass heuristic approach). The counts are the number of trees that sent those pairs of samples to the same outcome. After you have this, you divide each count by the total number of trees to normalize it. If you are dealing with missing text/catagorical data, then what you do next is get the frequency of each text possibility (in the training set) as shown below (where frequency of yes is 1/3 and frequency of no is 2/3)
 
 ![alt_text](https://imgur.com/f0jFI7l.png)
 
-and multiply it by (proximity of that text / all proximities). The (proximity of that text) is actually the summation of every column in the row for that sample (in this example case, 4) which had that text value, in this case that would be the row/column value (4,2), which has a proximity weight of .1. (all proximities) is equal to the summation of the entire row of your sample (in this case, 4). 
+and multiply that frequency by (PROXIMITY OF THAT TEXT / ALL PROXIMITIES). 
+
+The (PROXIMITY OF THAT TEXT) is actually the summation of every column in the row in the proximity matrix for that training sample that was missing data (in this example case, 4) which had that text value. In this case that would be the row/column value (4,2), which has a proximity weight of .1 (derived after dividing the counts by number of trees). 
+
+(ALL PROXIMITIES) is equal to the summation of the entire row of your sample (in this case, 4). 
 
 So to make this clear the other direction, for text "no" in this example case, the frequency is 2/3, then (proximity of that text) is .1+.8 yielding .9, then (all proximities) is the same as above. 
 
