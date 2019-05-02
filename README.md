@@ -5,7 +5,7 @@ Random forests are a collection of decision trees. First we need to understand d
 -----------------------------------------------------------------------
 
 ## Decision trees
-First lets start with basic structure.
+Lets start with basic structure.
 ![alt text](https://imgur.com/vwQofl5.png)
 ![alt text](https://imgur.com/2qkgqxs.png)
 ![alt text](https://imgur.com/YfnAJv2.png)
