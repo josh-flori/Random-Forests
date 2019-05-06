@@ -1,9 +1,12 @@
+# https://chrisalbon.com/machine_learning/trees_and_forests/random_forest_classifier_example/
+
 # Load the library with the iris dataset
 from sklearn.datasets import load_iris
 # Load scikit's random forest classifier library
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 # Create an object called iris with the iris data
 iris = load_iris()
@@ -20,17 +23,8 @@ df['species'] = pd.Categorical.from_codes(iris.target, iris.target_names)
 df.head()
 
 
-# Create a new column that for each row, generates a random number between 0 and 1, and
-# if that value is less than or equal to .75, then sets the value of that cell as True
-# and false otherwise. This is a quick and dirty way of randomly assigning some rows to
-# be used as the training data and some as the test data.
-df['is_train'] = np.random.uniform(0, 1, len(df)) <= .75
-
-# View the top 5 rows
-df.head()
-
-# Create two new dataframes, one with the training rows, one with the test rows
-train, test = df[df['is_train']==True], df[df['is_train']==False]
+# train test split
+train,test = train_test_split(df)
 
 
 # Show the number of observations for the test and training dataframes
@@ -39,9 +33,6 @@ print('Number of observations in the test data:',len(test))
 
 # Create a list of the feature column's names
 features = df.columns[:4]
-
-# View features
-features
 
 
 # train['species'] contains the actual species names. Before we can use it,
@@ -54,7 +45,9 @@ y
 
 
 # Create a random forest Classifier. By convention, clf means 'Classifier'
-clf = RandomForestClassifier(n_jobs=2, random_state=0)
+# Jobs = jobs to run in parallel for both fit and predict. None means 1 unless in a joblib.parallel_backend context. -1 means using all processors.
+# n_estimators = trees, default = 100 for version >.22, 10 otherwise
+clf = RandomForestClassifier(n_jobs=2,n_estimators=10)
 
 # Train the Classifier to take the training features and learn how they relate
 # to the training y (the species)
@@ -65,17 +58,13 @@ clf.fit(train[features], y)
 clf.predict(test[features])
 
 
-# View the predicted probabilities of the first 10 observations
-clf.predict_proba(test[features])[0:10]
+preds = iris.target_names[clf.predict(test[features])]
 
 
+pd.crosstab(test['species'], preds, rownames=['Actual Species'], colnames=['Predicted Species'])
 
-
-
-
-
-
-
+# View a list of the features and their importance scores
+list(zip(train[features], clf.feature_importances_))
 
 
 
