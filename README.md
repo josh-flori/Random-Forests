@@ -1,10 +1,11 @@
+# Overview
+This repository exists as a personal summarization and guide to understanding Random Forests in laymans terms.  
+
 # Random-Forests
 
 Random forests are a collection of decision trees. First we need to understand decision trees.
 
 #### Bagging: Bootstrapping + aggregating results
-
------------------------------------------------------------------------
 
 ## Decision trees
 Lets start with basic structure.
