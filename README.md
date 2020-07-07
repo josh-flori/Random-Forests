@@ -5,7 +5,7 @@ This repository exists as a personal summarization and guide to understanding Ra
 
 Random forests are a collection of decision trees. First we need to understand decision trees.
 
-#### Bagging: Bootstrapping + aggregating results
+(Bagging = Bootstrapping + aggregating results)
 
 ## Decision trees
 Lets start with basic structure.
@@ -105,9 +105,9 @@ For numeric data you get the weighted average. So multiply each numeric value fo
 ![alt_text](https://imgur.com/AT0WbGU.png)
 
 
-# cool stuff
+# Cool stuff
 
-But now lets talk about some cool stuff. So the proximity matrix shows weights from 0-1 (after dividing by the number of trees). So a value of 1 is the maximum value. So what happens when you subtract every value from 1? You get a distance matrix. So a resulting value of 0 tells you that those two samples are as close together as possible given those features and that forest. That allows us to create heatmaps like this
+But now lets talk about some cool stuff. The proximity matrix shows weights from 0-1 (after dividing by the number of trees). So a value of 1 is the maximum value. So what happens when you subtract every value from 1? You get a distance matrix. So a resulting value of 0 tells you that those two samples are as close together as possible given those features and that forest. That allows us to create heatmaps like this
 
 ![alt_text](https://imgur.com/DDVLutp.png)
 
